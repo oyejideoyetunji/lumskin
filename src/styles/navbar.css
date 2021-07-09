@@ -1,0 +1,32 @@
+.nav-wrp {
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0 2px 3px -3px grey;
+    background-color: var(--grayAlt1);
+}
+
+.menu-icon {
+    width: 20px;
+}
+
+.menu-icon > p {
+    width: 100%;
+    margin: 4px 0;
+    height: 1px;
+    background-color: var(--primaryText);
+}
+
+@media only screen and (min-width: 990px){
+   .menu-icon {
+        display: none;
+    }
+
+    .menu-items {
+        display: flex;
+    }
+}
