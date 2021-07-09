@@ -23,8 +23,14 @@ body {
 }
 
 :root {
+    --brandGray: #4b5548;
+    --darkBrandGray: #2d302d;
+    --white: #ffffff;
     --primaryText: #2b2e2b;
+    --primaryAlt: #8d918d;
     --grayAlt1: #f5f5f4;
+    --grayAlt2: #cdd1ce;
+    --grayAlt3: #e2e6e3;
 }
 
 /*
@@ -48,6 +54,10 @@ body {
 
 .flex {
     display: flex;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
 }
 
 .flex-col {
@@ -91,6 +101,16 @@ body {
     padding-right: 2rem;
 }
 
+.py-2rem {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.py-1rem {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 .pr-2rem {
     padding-right: 2rem;
 }
@@ -103,4 +123,28 @@ body {
 
 .primary-text {
     color: var(--primaryText);
+}
+
+.white-text {
+    color: var(--white);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.bg-gray-1 {
+    background-color: var(--grayAlt1);
+}
+
+.bg-gray-3 {
+    background-color: var(--grayAlt3);
+}
+
+.bg-white {
+    background-color: var(--white);
+}
+
+.bg-brandGray {
+    background-color: var(--brandGray);
 }

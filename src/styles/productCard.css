@@ -1,0 +1,22 @@
+.pd-card-wrp {
+    box-sizing: border-box;
+    padding: 3rem 2rem;
+    min-width: 100px;
+}
+
+.pd-card-wrp > img,
+.pd-card-wrp > span,
+.pd-card-wrp > button {
+    width: 100%;
+}
+
+button:hover {
+    background-color: var(--darkBrandGray);
+}
+
+@media only screen and (min-width: 990px){
+    .pd-card-wrp > span,
+    .pd-card-wrp > button {
+        width: 60%;
+    }
+}

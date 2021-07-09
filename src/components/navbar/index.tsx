@@ -1,10 +1,19 @@
-import React, { FC } from "react"
-import "../../styles/navbar.css"
+import React, { FC } from 'react'
+import '../../styles/navbar.css'
 
+interface NavBarProps {
+    scrolled: boolean
+}
 
-const Navbar: FC = () => {
+const Navbar: FC<NavBarProps> = (
+    { scrolled }: NavBarProps
+) => {
     return(
-        <nav className="nav-wrp w-full flex items-center justify-between px-2rem">
+        <nav
+            className={
+                `nav-wrp w-full flex items-center justify-between px-2rem ${scrolled ? 'bg-white':'bg-gray-1'}`
+            }
+        >
             <div className="menu-icon">
                 <p></p>
                 <p></p>

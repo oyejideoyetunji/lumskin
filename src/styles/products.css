@@ -1,3 +1,31 @@
-.wrapper {
+.filter-blck {
     padding-top: 48px;
+    padding-bottom: 48px;
+    background-color: var(--grayAlt1);
+}
+
+.product-grid {
+    min-height: 500px;
+    flex-shrink: 0;
+}
+
+.product-grid > * {
+    width: 50%;
+}
+
+@media only screen and (min-width: 768px) {
+    .product-grid > * {
+        width: 33.3333%;
+    }
+}
+
+@media only screen and (min-width: 990px){
+    .filter-blck {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .filter-blck > div {
+        width: 30%;
+    }
 }
