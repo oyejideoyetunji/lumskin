@@ -5,11 +5,13 @@ import Button from '../button';
 
 interface ProductCardProps {
     product: IProduct
+    onPickItemForCart(): void
 }
 
 const ProductCard: FC<ProductCardProps> = (
     {
-        product
+        product,
+        onPickItemForCart
     }: ProductCardProps
 ) => {
     return (
@@ -21,7 +23,7 @@ const ProductCard: FC<ProductCardProps> = (
             <span className="small-text primary-text text-center py-1rem">
                 {product.price}
             </span>
-            <Button className="white-text bg-brandGray">
+            <Button onClick={onPickItemForCart} className="white-text bg-brandGray">
                 Add to Cart
             </Button>
         </div>

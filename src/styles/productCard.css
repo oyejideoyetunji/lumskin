@@ -10,7 +10,7 @@
     width: 100%;
 }
 
-button:hover {
+.pd-card-wrp > button:hover {
     background-color: var(--darkBrandGray);
 }
 

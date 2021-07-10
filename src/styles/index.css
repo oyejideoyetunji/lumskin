@@ -31,6 +31,7 @@ body {
     --grayAlt1: #f5f5f4;
     --grayAlt2: #cdd1ce;
     --grayAlt3: #e2e6e3;
+    --lightModal: rgba(205, 209, 206, 0.8);
 }
 
 /*
@@ -40,8 +41,29 @@ body {
 .w-full {
     width: 100%;
 }
-.h-full {
-    height: 100%;
+
+.w-50 {
+    width: 50%;
+}
+
+.w-100px {
+    width: 100px;
+}
+
+.h-50 {
+    height: 50%;
+}
+
+.h-35 {
+    height: 35%;
+}
+
+.h-screen-70 {
+    height: 70vh;
+}
+
+.h-50px {
+    height: 50px;
 }
 
 .hidden {
@@ -96,9 +118,19 @@ body {
     justify-content: space-between;
 }
 
+.my-1rem {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 .px-2rem {
     padding-left: 2rem;
     padding-right: 2rem;
+}
+
+.px-1rem {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .py-2rem {
@@ -147,4 +179,33 @@ body {
 
 .bg-brandGray {
     background-color: var(--brandGray);
+}
+
+.bg-modal-light {
+    background-color: var(--lightModal);
+    backdrop-filter: blur(3px);
+}
+
+.fixed {
+    position: fixed;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }

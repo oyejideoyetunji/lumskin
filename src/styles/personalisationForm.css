@@ -1,0 +1,5 @@
+.aside-frame .btm-btn-wrp {
+    width: calc(100% - 32px);
+    left: 16px;
+    bottom: 38px;
+}
