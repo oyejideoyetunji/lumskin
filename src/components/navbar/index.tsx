@@ -8,10 +8,10 @@ interface NavBarProps {
 const Navbar: FC<NavBarProps> = (
     { scrolled }: NavBarProps
 ) => {
-    return(
+    return (
         <nav
             className={
-                `nav-wrp w-full flex items-center justify-between px-2rem ${scrolled ? 'bg-white':'bg-gray-1'}`
+                `nav-wrp w-full flex items-center justify-between px-2rem ${scrolled ? 'bg-white' : 'bg-gray-1'}`
             }
         >
             <div className="menu-icon">

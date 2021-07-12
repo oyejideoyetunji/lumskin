@@ -8,5 +8,6 @@
 }
 
 .cart-items-wrp {
-    height: calc(65% - 100px);
+    height: calc(65% - 132px);
+    margin: 16px 0;
 }

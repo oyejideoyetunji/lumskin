@@ -42,8 +42,16 @@ body {
     width: 100%;
 }
 
+.w-70 {
+    width: 70%;
+}
+
 .w-50 {
     width: 50%;
+}
+
+.w-30 {
+    width: 30%;
 }
 
 .w-100px {
@@ -64,6 +72,10 @@ body {
 
 .h-50px {
     height: 50px;
+}
+
+.block {
+    display: block;
 }
 
 .hidden {

@@ -1,14 +1,15 @@
-import React, { FC } from 'react'
-import { IProduct } from '../../lib/types'
+import React, { ChangeEvent, FC, useContext, useState } from 'react'
+import { IPersonalizationDetails, IProduct } from '../../lib/types'
 import '../../styles/personalisationForm.css'
 import '../../styles/asideFrame.css'
 import Button from '../button'
 import Select from '../select'
+import { CartContext } from '../layout'
 
 interface PersonalisationFormProps {
     product: IProduct
     onClose(): void
-    addToCart(product: IProduct): void
+    addToCart(item: IProduct, option: IPersonalizationDetails[]): void
     onShowCart(): void
 }
 
@@ -20,8 +21,24 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
         onShowCart,
     }: PersonalisationFormProps
 ) => {
-    return(
-        <form className="aside-frame bg-gray-1 relative">
+
+    const { currentPersonalDetails } = useContext(CartContext)
+
+    const initialOptionData: Record<string, { title: string, value: string }> = {}
+
+    for (const option of product?.product_options) {
+        initialOptionData[option.title] = {
+            title: option.title,
+            value: currentPersonalDetails?.find(
+                itm => itm.title === option.title
+            )?.value || ''
+        }
+    }
+
+    const [optionsData, setOptionsData] = useState(initialOptionData)
+
+    return (
+        <form className="aside-frame bg-gray-1 relative px-1rem py-1rem">
             <section className="w-full flex items-center">
                 <span
                     className="circle-icon-wrp flex items-center justify-center cursor-pointer"
@@ -34,13 +51,29 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
                 </div>
             </section>
             <h1>First Let's personalize.</h1>
-            <h2>Products that you receive may vary according to your age bracket & skin type to optimize results.</h2>
+            <h2>Products that you receive may vary according to your age bracket &#38; skin type to optimize results.</h2>
             <h3>Personalization details</h3>
             {
-                product.product_options.length > 0 &&
+                product?.product_options?.length > 0 &&
                 product.product_options.map((pdOption) => {
                     return (
-                        <Select></Select>
+                        <Select
+                            name={pdOption.title}
+                            value={optionsData[pdOption.title].value}
+                            key={pdOption.title}
+                            onChange={onOptionsDataChange}
+                        >
+                            {
+                                pdOption?.options.map(option => (
+                                    <option
+                                        key={option.id}
+                                        value={option.value}
+                                    >
+                                        {option.value}
+                                    </option>
+                                ))
+                            }
+                        </Select>
                     )
                 })
             }
@@ -48,6 +81,7 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
                 <Button
                     className="white-text bg-brandGray"
                     onClick={onAddToCart}
+                    type="button"
                 >
                     Add to Cart
                 </Button>
@@ -56,9 +90,16 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
     )
 
     function onAddToCart() {
-        addToCart(product)
+        addToCart(product, Object.values(optionsData))
         onClose()
         onShowCart()
+    }
+
+    function onOptionsDataChange(event: ChangeEvent<HTMLSelectElement>) {
+        setOptionsData({
+            ...optionsData,
+            [event.target.name]: { title: event.target.name, value: event.target.value }
+        })
     }
 }
 

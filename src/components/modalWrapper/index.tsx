@@ -1,18 +1,13 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, HTMLAttributes } from 'react'
 import '../../styles/modal.css'
 
-interface ModalWrapperProps {
-    className: string
-    children: ReactNode
-}
-
-const ModalWrapper: FC<ModalWrapperProps> = (
-    props: ModalWrapperProps
+const ModalWrapper: FC<HTMLAttributes<HTMLElement>> = (
+    props: HTMLAttributes<HTMLElement>
 ) => {
-
-    return(
-        <section className={`${props.className} modal`}>
-            {props.children}
+    const { className, children } = props
+    return (
+        <section className={`${className} modal`}>
+            {children}
         </section>
     )
 }

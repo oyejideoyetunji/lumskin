@@ -1,0 +1,11 @@
+.cart-card {
+    padding: 8px 12px 12px;
+    margin-bottom: 12px;
+}
+
+.ctrl-bx {
+    border: 1px solid var(--grayAlt2);
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
