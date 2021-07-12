@@ -1,5 +1,16 @@
 .aside-frame .btm-btn-wrp {
     width: calc(100% - 32px);
     left: 16px;
-    bottom: 38px;
+    bottom: 20px;
+}
+
+.pd-hdr-img {
+    max-height: 60px;
+}
+
+
+@media only screen and (min-width: 767px){
+    .pd-hdr-img {
+        max-height: 100px;
+    }
 }

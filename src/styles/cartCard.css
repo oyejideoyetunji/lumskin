@@ -9,3 +9,8 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.cart-itm-img {
+    max-height: 70px;
+    max-width: 100%;
+}

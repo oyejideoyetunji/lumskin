@@ -7,6 +7,7 @@ import Cart from '../../components/cart'
 
 const defaultCartData: CartData = {
     cart: [],
+    currency: 'NGN',
     currentPersonalDetails: [],
     showCart: false,
 }
@@ -23,6 +24,7 @@ const Layout: FC<LayoutProps> = ({
     const hasScrolled = () => window.scrollY > 70
     const [scrolled, setScrolled] = useState<boolean>(hasScrolled())
     const [cart, setCart] = useState<ICart>([])
+    const [currency, setCurrency] = useState('NGN')
     const [showCart, setShowCart] = useState<boolean>(false)
     const [currentPersonalDetails, setCurrentPersonalDetails] = useState<
         IPersonalizationDetails[]
@@ -31,6 +33,7 @@ const Layout: FC<LayoutProps> = ({
     useEffect(() => {
         let isMounted = true
         if (isMounted) {
+            setCurrency(getStoreData<string>(StoreKey.CURRENCY) || 'NGN')
             setCart(getStoreData<ICart>(StoreKey.CART) || [])
             setCurrentPersonalDetails(
                 getStoreData<IPersonalizationDetails[]>(StoreKey.PERSONAL_DETAILS)
@@ -48,13 +51,14 @@ const Layout: FC<LayoutProps> = ({
             value={{
                 cart,
                 showCart,
+                currency,
                 currentPersonalDetails,
                 setCart,
                 setShowCart,
                 setCurrentPersonalDetails
             }}
         >
-            <Navbar scrolled={scrolled} />
+            <Navbar cart={cart} setShowCart={setShowCart} scrolled={scrolled} />
             <main className="w-full container">
                 {children}
             </main>
@@ -62,7 +66,13 @@ const Layout: FC<LayoutProps> = ({
                 <ModalWrapper
                     className="fixed items-start justify-end bg-modal-light"
                 >
-                    <Cart cart={cart} setCart={setCart} onClose={handleCloseCart} />
+                    <Cart
+                        currency={currency}
+                        setCurrency={setCurrency}
+                        cart={cart}
+                        setCart={setCart}
+                        onClose={handleCloseCart}
+                    />
                 </ModalWrapper>
             )}
         </CartContext.Provider>

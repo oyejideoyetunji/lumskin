@@ -39,29 +39,33 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
 
     return (
         <form className="aside-frame bg-gray-1 relative px-1rem py-1rem">
-            <section className="w-full flex items-center">
+            <section className="hdr w-full flex items-center justify-between">
                 <span
                     className="circle-icon-wrp flex items-center justify-center cursor-pointer"
                     onClick={onClose}
                 >
                     &#62;
                 </span>
-                <div className="w-full flex justify-center">
-                    <img src={product.image_url} alt="" className="w-50" />
+                <div className="w-90 flex justify-center">
+                    <img src={product.image_url} alt="" className="pd-hdr-img" />
                 </div>
             </section>
-            <h1>First Let's personalize.</h1>
-            <h2>Products that you receive may vary according to your age bracket &#38; skin type to optimize results.</h2>
-            <h3>Personalization details</h3>
+            <h1 className="light-txt font-26">First Let's personalize.</h1>
+            <h2 className="light-txt font-16">Products that you receive may vary according to your age bracket &#38; skin type to optimize results.</h2>
+            <h3 className="thick-txt font-14">Personalization details</h3>
             {
                 product?.product_options?.length > 0 &&
                 product.product_options.map((pdOption) => {
                     return (
+                        <div key={pdOption.title}>
+                            <span className="thick-txt font-14">
+                                {pdOption.title}
+                            </span>
                         <Select
                             name={pdOption.title}
                             value={optionsData[pdOption.title].value}
-                            key={pdOption.title}
                             onChange={onOptionsDataChange}
+                            className="my-10px"
                         >
                             {
                                 pdOption?.options.map(option => (
@@ -74,6 +78,7 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
                                 ))
                             }
                         </Select>
+                        </div>
                     )
                 })
             }

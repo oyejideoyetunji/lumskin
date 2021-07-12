@@ -9,6 +9,10 @@
     box-shadow: 0 2px 3px -3px #808080;
 }
 
+.logo-img {
+    max-height: 35px;
+}
+
 .menu-icon {
     width: 20px;
 }
