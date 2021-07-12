@@ -9,6 +9,7 @@ import { CartContext } from '../../components/layout'
 import { setStoreData } from '../../store'
 import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS } from '../../services/queries'
+import LoadingCard from '../../components/loadingCard'
 
 
 const Products: FC = () => {
@@ -50,9 +51,21 @@ const Products: FC = () => {
                 </section>
                 <section className="w-full product-grid bg-gray-3 flex flex-row flex-wrap">
                     { loading
-                        ? (<div>Loading</div>)
+                        ? (
+                            <>
+                                <LoadingCard />
+                                <LoadingCard />
+                                <LoadingCard />
+                            </>
+                        )
                         : (error)
-                        ? (<div>Error</div>)
+                        ? (
+                            <div
+                                className="w-full px-2rem h-300px danger-text flex items-center justify-center text-center"
+                            >
+                                Oops!! an unexpected error has ocurred please try again.
+                            </div>
+                            )
                         : (data?.products && data.products?.length > 0 )
                         ? data.products.map((product: IProduct) => {
                                 function onPickItemForCart() {
@@ -64,7 +77,13 @@ const Products: FC = () => {
                                     onPickItemForCart={onPickItemForCart}
                                 />)
                             })
-                        :(<div>No data</div>)
+                        :(
+                            <div
+                                className="w-full px-2rem h-300px flex items-center justify-center text-center"
+                            >
+                                Currently unable to get the data you requested for.
+                            </div>
+                        )
                     }
                 </section>
             </section>
@@ -97,13 +116,13 @@ const Products: FC = () => {
     function addToCart(
         item: IProduct, option: IPersonalizationDetails[] = []
     ) {
-        const newCart = cart.some(itm => itm.product.id === item.id)
+        const newCart = cart.some(itm => itm.id === item.id)
             ? cart.map(
-                itm => itm.product.id === item.id
+                itm => itm.id === item.id
                     ? { ...itm, count: itm.count + 1}
                 : itm
             )
-            : cart.concat({ product: item, personalDetails: option, count: 1})
+            : cart.concat({ id: item.id, personalDetails: option, count: 1})
 
         setStoreData<ICart>(StoreKey.CART, newCart)
         setStoreData<IPersonalizationDetails[]>(StoreKey.PERSONAL_DETAILS, option)

@@ -4,7 +4,7 @@ import Products from './screens/products'
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-    link: new HttpLink({ uri: 'https://pangaea-interviews.now.sh/api/graphql'}),
+    link: new HttpLink({ uri: 'https://pangaea-interviews.now.sh/api/graphql' }),
     cache: new InMemoryCache()
 })
 

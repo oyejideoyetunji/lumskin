@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { IProduct } from '../../lib/types';
+import { delimitNumber } from '../../lib/utils';
 import '../../styles/productCard.css'
 import Button from '../button';
 import { CartContext } from '../layout';
@@ -25,7 +26,7 @@ const ProductCard: FC<ProductCardProps> = (
                 {product.title}
             </span>
             <span className="small-text primary-text text-center py-1rem">
-                {`${currency}${product.price}`}
+                {`${currency}${delimitNumber(product.price)}`}
             </span>
             <Button onClick={onPickItemForCart} className="white-text bg-brandGray">
                 Add to Cart

@@ -1,19 +1,20 @@
 import React, { FC, useContext } from 'react'
-import { ICart, ICartItem, StoreKey } from '../../lib/types'
+import { ICart, LiveCartItem, StoreKey } from '../../lib/types'
+import { delimitNumber } from '../../lib/utils'
 import { setStoreData } from '../../store'
 import '../../styles/cartCard.css'
 import { CartContext } from '../layout'
 
 
 interface CartItemCardProps {
-    cartItem: ICartItem
+    cartItem: LiveCartItem
 }
 
 const CartItemCard: FC<CartItemCardProps> = (
     { cartItem }: CartItemCardProps
 ) => {
 
-    const { cart, setCart } = useContext(CartContext)
+    const { cart, currency, setCart } = useContext(CartContext)
 
     return (
         <section className="cart-card w-full bg-white">
@@ -40,7 +41,9 @@ const CartItemCard: FC<CartItemCardProps> = (
                                 +
                             </span>
                         </div>
-                        <span className="light-txt font-16">{cartItem.count * cartItem.product.price}</span>
+                        <span className="light-txt font-16">
+                            {`${currency}${delimitNumber(cartItem.count * cartItem.product.price)}`}
+                        </span>
                     </div>
                 </div>
                 <div className="w-30">
@@ -51,15 +54,15 @@ const CartItemCard: FC<CartItemCardProps> = (
     )
 
     function onRemoveItemFromCart() {
-        const newCart = cart.filter(itm => itm.product.id !== cartItem.product.id)
+        const newCart = cart.filter(itm => itm.id !== cartItem.product.id)
         setStoreData<ICart>(StoreKey.CART, newCart)
         setCart && setCart(newCart)
     }
 
     function onIncreaseCount() {
         const newCart = cart.map(
-            itm => itm.product.id === cartItem.product.id
-                ? { ...itm, count: itm.count + 1, amount: itm.product.price * (itm.count + 1) }
+            itm => itm.id === cartItem.product.id
+                ? { ...itm, count: itm.count + 1 }
                 : itm
         )
         setStoreData<ICart>(StoreKey.CART, newCart)
@@ -69,8 +72,8 @@ const CartItemCard: FC<CartItemCardProps> = (
     function onDecreaseCount() {
         if (cartItem.count > 1){
             const newCart = cart.map(
-                itm => itm.product.id === cartItem.product.id
-                    ? { ...itm, count: itm.count - 1, amount: itm.product.price * (itm.count - 1) }
+                itm => itm.id === cartItem.product.id
+                    ? { ...itm, count: itm.count - 1 }
                     : itm
             )
 

@@ -73,6 +73,7 @@ body {
     --grayAlt3: #e2e6e3;
     --lightModal: rgba(205, 209, 206, 0.8);
     --darkAlt: rgb(43, 46, 43);
+    --danger: #ff2818ef;
 }
 
 /*
@@ -129,6 +130,10 @@ body {
 
 .h-50px {
     height: 50px;
+}
+
+.h-300px {
+    height: 300px;
 }
 
 .block {
@@ -237,6 +242,10 @@ body {
 
 .white-text {
     color: var(--white);
+}
+
+.danger-text {
+    color: var(--danger);
 }
 
 .text-center {
