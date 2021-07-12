@@ -6,6 +6,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 First clone the repository
 
-Install dependencies using <npm install> or <yarn add>
+Install dependencies using < npm install > or < yarn add >
 
-Run <yarn start> or <npm start> to lunch the dev server.
+Run < yarn start > or < npm start > to lunch the dev server.
