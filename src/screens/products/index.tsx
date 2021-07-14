@@ -19,6 +19,7 @@ const Products: FC = () => {
         cart,
         showCart,
         currency,
+        currentPersonalDetails,
         setCurrentPersonalDetails,
         setShowCart,
         setCart
@@ -125,9 +126,13 @@ const Products: FC = () => {
             : [{ id: item.id, personalDetails: option, count: 1 }, ...cart]
 
         setStoreData<ICart>(StoreKey.CART, newCart)
-        setStoreData<IPersonalizationDetails[]>(StoreKey.PERSONAL_DETAILS, option)
+        setStoreData<IPersonalizationDetails[]>(
+            StoreKey.PERSONAL_DETAILS, option.length ? option : currentPersonalDetails
+        )
         setCart && setCart(newCart)
-        setCurrentPersonalDetails && setCurrentPersonalDetails(option)
+        setCurrentPersonalDetails && setCurrentPersonalDetails(
+            option.length ? option : currentPersonalDetails
+        )
     }
 
     function handleShowCart() {
