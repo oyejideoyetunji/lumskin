@@ -10,6 +10,7 @@ export interface CartData {
     cart: ICart
     showCart: boolean
     currency: string
+    setCurrency?: Dispatch<SetStateAction<string>>
     setCart?: Dispatch<SetStateAction<ICart>>
     setShowCart?: Dispatch<SetStateAction<boolean>>
     currentPersonalDetails: IPersonalizationDetails[]

@@ -47,7 +47,11 @@ const CartItemCard: FC<CartItemCardProps> = (
                     </div>
                 </div>
                 <div className="w-30">
-                    <img src={cartItem.product.image_url} alt="" className="cart-itm-img" />
+                    <img
+                        src={cartItem.product.image_url}
+                        alt={cartItem.product.title}
+                        className="cart-itm-img"
+                    />
                 </div>
             </section>
         </section>
@@ -70,7 +74,7 @@ const CartItemCard: FC<CartItemCardProps> = (
     }
 
     function onDecreaseCount() {
-        if (cartItem.count > 1){
+        if (cartItem.count > 1) {
             const newCart = cart.map(
                 itm => itm.id === cartItem.product.id
                     ? { ...itm, count: itm.count - 1 }
@@ -79,7 +83,7 @@ const CartItemCard: FC<CartItemCardProps> = (
 
             setStoreData<ICart>(StoreKey.CART, newCart)
             setCart && setCart(newCart)
-        }else {
+        } else {
             onRemoveItemFromCart()
         }
     }

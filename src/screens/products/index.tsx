@@ -24,7 +24,7 @@ const Products: FC = () => {
         setCart
     } = useContext(CartContext)
 
-    const {loading, error, data} = useQuery(GET_PRODUCTS, {
+    const { loading, error, data } = useQuery(GET_PRODUCTS, {
         variables: { currency }
     })
 
@@ -50,7 +50,7 @@ const Products: FC = () => {
                     </div>
                 </section>
                 <section className="w-full product-grid bg-gray-3 flex flex-row flex-wrap">
-                    { loading
+                    {loading
                         ? (
                             <>
                                 <LoadingCard />
@@ -59,31 +59,31 @@ const Products: FC = () => {
                             </>
                         )
                         : (error)
-                        ? (
-                            <div
-                                className="w-full px-2rem h-300px danger-text flex items-center justify-center text-center"
-                            >
-                                Oops!! an unexpected error has ocurred please try again.
-                            </div>
+                            ? (
+                                <div
+                                    className="w-full px-2rem h-300px danger-text flex items-center justify-center text-center"
+                                >
+                                    Oops!! an unexpected error has ocurred please try again.
+                                </div>
                             )
-                        : (data?.products && data.products?.length > 0 )
-                        ? data.products.map((product: IProduct) => {
-                                function onPickItemForCart() {
-                                    handlePickItemForCart(product)
-                                }
-                                return (<ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onPickItemForCart={onPickItemForCart}
-                                />)
-                            })
-                        :(
-                            <div
-                                className="w-full px-2rem h-300px flex items-center justify-center text-center"
-                            >
-                                Currently unable to get the data you requested for.
-                            </div>
-                        )
+                            : (data?.products?.length)
+                                ? data.products.map((product: IProduct) => {
+                                    function onPickItemForCart() {
+                                        handlePickItemForCart(product)
+                                    }
+                                    return (<ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        onPickItemForCart={onPickItemForCart}
+                                    />)
+                                })
+                                : (
+                                    <div
+                                        className="w-full px-2rem h-300px flex items-center justify-center text-center"
+                                    >
+                                        Currently unable to get the data you requested for.
+                                    </div>
+                                )
                     }
                 </section>
             </section>
@@ -119,10 +119,10 @@ const Products: FC = () => {
         const newCart = cart.some(itm => itm.id === item.id)
             ? cart.map(
                 itm => itm.id === item.id
-                    ? { ...itm, count: itm.count + 1}
-                : itm
+                    ? { ...itm, count: itm.count + 1 }
+                    : itm
             )
-            : cart.concat({ id: item.id, personalDetails: option, count: 1})
+            : [{ id: item.id, personalDetails: option, count: 1 }, ...cart]
 
         setStoreData<ICart>(StoreKey.CART, newCart)
         setStoreData<IPersonalizationDetails[]>(StoreKey.PERSONAL_DETAILS, option)

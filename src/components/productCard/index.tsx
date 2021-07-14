@@ -21,12 +21,12 @@ const ProductCard: FC<ProductCardProps> = (
 
     return (
         <div className="flex flex-col items-center justify-end pd-card-wrp">
-            <img src={product.image_url} alt="" className="py-1rem" />
+            <img src={product.image_url} alt={product.title} className="py-1rem" />
             <span className="small-text primary-text text-center">
                 {product.title}
             </span>
             <span className="small-text primary-text text-center py-1rem">
-                {`${currency}${delimitNumber(product.price)}`}
+                {`${currency} ${delimitNumber(product.price)}`}
             </span>
             <Button onClick={onPickItemForCart} className="white-text bg-brandGray">
                 Add to Cart

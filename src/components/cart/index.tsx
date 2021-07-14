@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react'
-import { ICart, IProduct, StoreKey } from '../../lib/types'
+import React, { ChangeEvent, FC, useContext } from 'react'
+import { IProduct, StoreKey } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
 import { GET_CURRENCIES, GET_PRODUCTS } from '../../services/queries'
 import { setStoreData } from '../../store'
@@ -8,38 +8,22 @@ import '../../styles/asideFrame.css'
 import '../../styles/cart.css'
 import Button from '../button'
 import CartItemCard from '../cartItemCard'
+import { CartContext } from '../layout'
 import LoadingCard from '../loadingCard'
 import Select from '../select'
 
 interface CartProps {
-    cart: ICart
-    currency: string
-    setCurrency: Dispatch<SetStateAction<string>>
     onClose(): void
-    setCart: Dispatch<SetStateAction<ICart>>
 }
 
-const Cart: FC<CartProps> = (
-    {
-        onClose,
-        cart,
-        currency,
-        setCurrency
-    }: CartProps
-) => {
+const Cart: FC<CartProps> = ({ onClose }: CartProps) => {
+
+    const { cart, currency, setCurrency } = useContext(CartContext)
+
     const { loading, error, data } = useQuery(GET_CURRENCIES)
     const { loading: pdLoading, error: pdError, data: pdData } = useQuery(GET_PRODUCTS, {
         variables: { currency }
     })
-
-    function getCartLiveData(products: IProduct[]) {
-        return cart.map(item => {
-            const liveData: IProduct = products.find(
-                (product: IProduct) => product.id === item.id
-            ) as IProduct
-            return ({ ...item, product: liveData })
-        })
-    }
 
     return (
         <section className="aside-frame bg-gray-1 relative">
@@ -61,8 +45,7 @@ const Cart: FC<CartProps> = (
                     onChange={onCurrencyChange}
                 >
                     {
-                        !loading && !error && data &&
-                        data.currency && !!data.currency?.length &&
+                        !loading && !error && !!data?.currency?.length &&
                         data.currency.map((item: string) => (
                             <option key={item} value={item}>{item}</option>
                         ))
@@ -84,8 +67,7 @@ const Cart: FC<CartProps> = (
                                     Oops!! an unexpected error has ocurred please try again.
                                 </div>
                             )
-                            : pdData?.products && pdData?.products?.length &&
-                                getCartLiveData(pdData.products).length > 0
+                            : (pdData?.products?.length && getCartLiveData(pdData.products).length)
                                 ? getCartLiveData(pdData.products).map(itm => (
                                     <CartItemCard cartItem={itm} key={itm.id} />
                                 ))
@@ -103,7 +85,7 @@ const Cart: FC<CartProps> = (
                     <span>
                         {currency}
                         {
-                            pdData?.products?.length
+                            !!pdData?.products?.length
                             && delimitNumber(getSubTotal(pdData?.products))
                         }
                     </span>
@@ -115,12 +97,26 @@ const Cart: FC<CartProps> = (
         </section>
     )
 
+    function getCartLiveData(products: IProduct[]) {
+        try {
+            return cart.map(item => {
+                const liveData: IProduct = products.find(
+                    (product: IProduct) => product.id === item.id
+                ) as IProduct
+                return ({ ...item, product: liveData })
+            })
+        } catch (err) {
+            return []
+        }
+    }
+
     function getSubTotal(products: IProduct[]) {
-        return getCartLiveData(products).reduce((prev, curr) => prev + (curr.count * curr.product.price), 0)
+        return getCartLiveData(products)
+            .reduce((prev, curr) => prev + (curr.count * curr.product.price), 0)
     }
     function onCurrencyChange(event: ChangeEvent<HTMLSelectElement>) {
         setStoreData<string>(StoreKey.CURRENCY, event.target.value)
-        setCurrency(event.target.value)
+        setCurrency && setCurrency(event.target.value)
     }
 }
 

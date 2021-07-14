@@ -55,10 +55,11 @@ const Layout: FC<LayoutProps> = ({
                 currentPersonalDetails,
                 setCart,
                 setShowCart,
+                setCurrency,
                 setCurrentPersonalDetails
             }}
         >
-            <Navbar cart={cart} setShowCart={setShowCart} scrolled={scrolled} />
+            <Navbar scrolled={scrolled} />
             <main className="w-full container">
                 {children}
             </main>
@@ -66,13 +67,7 @@ const Layout: FC<LayoutProps> = ({
                 <ModalWrapper
                     className="fixed items-start justify-end bg-modal-light"
                 >
-                    <Cart
-                        currency={currency}
-                        setCurrency={setCurrency}
-                        cart={cart}
-                        setCart={setCart}
-                        onClose={handleCloseCart}
-                    />
+                    <Cart onClose={handleCloseCart} />
                 </ModalWrapper>
             )}
         </CartContext.Provider>

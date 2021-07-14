@@ -23,19 +23,7 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
 ) => {
 
     const { currentPersonalDetails } = useContext(CartContext)
-
-    const initialOptionData: Record<string, { title: string, value: string }> = {}
-
-    for (const option of product?.product_options) {
-        initialOptionData[option.title] = {
-            title: option.title,
-            value: currentPersonalDetails?.find(
-                itm => itm.title === option.title
-            )?.value || ''
-        }
-    }
-
-    const [optionsData, setOptionsData] = useState(initialOptionData)
+    const [optionsData, setOptionsData] = useState(getInitialOptionsData())
 
     return (
         <form className="aside-frame bg-gray-1 relative px-1rem py-1rem">
@@ -51,7 +39,9 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
                 </div>
             </section>
             <h1 className="light-txt font-26">First Let's personalize.</h1>
-            <h2 className="light-txt font-16">Products that you receive may vary according to your age bracket &#38; skin type to optimize results.</h2>
+            <h2 className="light-txt font-16">
+                Products that you receive may vary according to your age bracket &#38; skin type to optimize results.
+            </h2>
             <h3 className="thick-txt font-14">Personalization details</h3>
             {
                 product?.product_options?.length > 0 &&
@@ -61,23 +51,23 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
                             <span className="thick-txt font-14">
                                 {pdOption.title}
                             </span>
-                        <Select
-                            name={pdOption.title}
-                            value={optionsData[pdOption.title].value}
-                            onChange={onOptionsDataChange}
-                            className="my-10px"
-                        >
-                            {
-                                pdOption?.options.map(option => (
-                                    <option
-                                        key={option.id}
-                                        value={option.value}
-                                    >
-                                        {option.value}
-                                    </option>
-                                ))
-                            }
-                        </Select>
+                            <Select
+                                name={pdOption.title}
+                                value={optionsData[pdOption.title].value}
+                                onChange={onOptionsDataChange}
+                                className="my-10px"
+                            >
+                                {
+                                    pdOption?.options.map(option => (
+                                        <option
+                                            key={option.id}
+                                            value={option.value}
+                                        >
+                                            {option.value}
+                                        </option>
+                                    ))
+                                }
+                            </Select>
                         </div>
                     )
                 })
@@ -93,6 +83,21 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
             </section>
         </form>
     )
+
+    function getInitialOptionsData() {
+        const initialOptionData: Record<string, { title: string, value: string }> = {}
+
+        for (const option of product?.product_options) {
+            initialOptionData[option.title] = {
+                title: option.title,
+                value: currentPersonalDetails?.find(
+                    itm => itm.title === option.title
+                )?.value || ''
+            }
+        }
+
+        return initialOptionData
+    }
 
     function onAddToCart() {
         addToCart(product, Object.values(optionsData))

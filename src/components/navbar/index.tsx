@@ -1,23 +1,15 @@
-import React, { Dispatch, FC, SetStateAction } from 'react'
-import { ICart } from '../../lib/types'
+import React, { FC, useContext } from 'react'
 import '../../styles/navbar.css'
 import { ImageUrls } from '../assets/images/urls'
+import { CartContext } from '../layout'
 
 interface NavBarProps {
     scrolled: boolean
-    cart: ICart
-    setShowCart: Dispatch<SetStateAction<boolean>>
 }
 
-const Navbar: FC<NavBarProps> = (
-    {
-        scrolled,
-        cart,
-        setShowCart
-    }: NavBarProps
-) => {
+const Navbar: FC<NavBarProps> = ({ scrolled }: NavBarProps) => {
 
-
+    const { cart, setShowCart } = useContext(CartContext)
 
     return (
         <nav
@@ -60,8 +52,8 @@ const Navbar: FC<NavBarProps> = (
         </nav>
     )
 
-    function onShowCart(){
-        setShowCart(true)
+    function onShowCart() {
+        setShowCart && setShowCart(true)
     }
 }
 
