@@ -40,7 +40,7 @@ const Products: FC = () => {
                             All Products
                         </h1>
                         <span className="light-txt font-16">
-                            A 360 look at lumin
+                            A 360<sup>0</sup> look at lumin
                         </span>
                     </div>
                     <div className="py-2rem">
