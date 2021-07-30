@@ -6,14 +6,26 @@ export enum StoreKey {
     PERSONAL_DETAILS = 'personalization-details'
 }
 
+export interface IAction<T, K> {
+    type: T
+    payload: K
+}
+
+export interface ICartState {
+    cart: ICart
+    showCart: boolean
+    currency: string
+    currentPersonalDetails: IPersonalizationDetails[]
+}
+
 export interface CartData {
     cart: ICart
     showCart: boolean
     currency: string
+    currentPersonalDetails: IPersonalizationDetails[]
     setCurrency?: Dispatch<SetStateAction<string>>
     setCart?: Dispatch<SetStateAction<ICart>>
     setShowCart?: Dispatch<SetStateAction<boolean>>
-    currentPersonalDetails: IPersonalizationDetails[]
     setCurrentPersonalDetails?: Dispatch<
         SetStateAction<IPersonalizationDetails[]>
     >
