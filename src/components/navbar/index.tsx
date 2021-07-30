@@ -1,4 +1,6 @@
 import React, { FC, useContext } from 'react'
+import { useSelector } from 'react-redux'
+import { ICart } from '../../lib/types'
 import '../../styles/navbar.css'
 import { ImageUrls } from '../assets/images/urls'
 import { CartContext } from '../layout'
@@ -9,7 +11,8 @@ interface NavBarProps {
 
 const Navbar: FC<NavBarProps> = ({ scrolled }: NavBarProps) => {
 
-    const { cart, setShowCart } = useContext(CartContext)
+    const { setShowCart } = useContext(CartContext)
+    const cart: ICart = useSelector(state => state as ICart)
 
     return (
         <nav

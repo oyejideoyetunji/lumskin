@@ -1,12 +1,11 @@
 import React, { createContext, FC, ReactNode, useEffect, useState } from 'react'
-import { CartData, ICart, IPersonalizationDetails, StoreKey } from '../../lib/types'
+import { CartData, IPersonalizationDetails, StoreKey } from '../../lib/types'
 import ModalWrapper from '../../components/modalWrapper'
 import { getStoreData } from '../../store'
 import Navbar from '../navbar'
 import Cart from '../../components/cart'
 
 const defaultCartData: CartData = {
-    cart: [],
     currency: 'NGN',
     currentPersonalDetails: [],
     showCart: false,
@@ -23,7 +22,6 @@ const Layout: FC<LayoutProps> = ({
 }: LayoutProps) => {
     const hasScrolled = () => window.scrollY > 70
     const [scrolled, setScrolled] = useState<boolean>(hasScrolled())
-    const [cart, setCart] = useState<ICart>([])
     const [currency, setCurrency] = useState('NGN')
     const [showCart, setShowCart] = useState<boolean>(false)
     const [currentPersonalDetails, setCurrentPersonalDetails] = useState<
@@ -34,7 +32,6 @@ const Layout: FC<LayoutProps> = ({
         let isMounted = true
         if (isMounted) {
             setCurrency(getStoreData<string>(StoreKey.CURRENCY) || 'NGN')
-            setCart(getStoreData<ICart>(StoreKey.CART) || [])
             setCurrentPersonalDetails(
                 getStoreData<IPersonalizationDetails[]>(StoreKey.PERSONAL_DETAILS)
                 || []
@@ -49,11 +46,9 @@ const Layout: FC<LayoutProps> = ({
     return (
         <CartContext.Provider
             value={{
-                cart,
                 showCart,
                 currency,
                 currentPersonalDetails,
-                setCart,
                 setShowCart,
                 setCurrency,
                 setCurrentPersonalDetails

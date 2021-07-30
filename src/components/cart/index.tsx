@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { ChangeEvent, FC, useContext } from 'react'
-import { IProduct, StoreKey } from '../../lib/types'
+import { useSelector } from 'react-redux'
+import { ICart, IProduct, StoreKey } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
 import { GET_CURRENCIES, GET_PRODUCTS } from '../../services/queries'
 import { setStoreData } from '../../store'
@@ -18,7 +19,8 @@ interface CartProps {
 
 const Cart: FC<CartProps> = ({ onClose }: CartProps) => {
 
-    const { cart, currency, setCurrency } = useContext(CartContext)
+    const { currency, setCurrency } = useContext(CartContext)
+    const cart: ICart = useSelector(state => state as ICart)
 
     const { loading, error, data } = useQuery(GET_CURRENCIES)
     const { loading: pdLoading, error: pdError, data: pdData } = useQuery(GET_PRODUCTS, {

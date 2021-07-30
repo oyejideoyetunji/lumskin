@@ -1,6 +1,8 @@
 import React, { FC, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ICart, LiveCartItem, StoreKey } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
+import { decreaseItemCount, increaseItemCount, removeItemFromCart } from '../../reducers/cartReducers'
 import { setStoreData } from '../../store'
 import '../../styles/cartCard.css'
 import { CartContext } from '../layout'
@@ -14,7 +16,9 @@ const CartItemCard: FC<CartItemCardProps> = (
     { cartItem }: CartItemCardProps
 ) => {
 
-    const { cart, currency, setCart } = useContext(CartContext)
+    const { currency } = useContext(CartContext)
+    const cart = useSelector(state => state as ICart)
+    const dispatch = useDispatch()
 
     return (
         <section className="cart-card w-full bg-white">
@@ -57,35 +61,57 @@ const CartItemCard: FC<CartItemCardProps> = (
         </section>
     )
 
+    function updateLocalStore(cart: ICart){
+        setStoreData<ICart>(StoreKey.CART, cart)
+    }
+
     function onRemoveItemFromCart() {
-        const newCart = cart.filter(itm => itm.id !== cartItem.product.id)
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
+        // const newCart = cart.filter(itm => itm.id !== cartItem.product.id)
+        // setStoreData<ICart>(StoreKey.CART, newCart)
+        // setCart && setCart(newCart)
+
+        dispatch(
+            removeItemFromCart({ id: cartItem.product.id })
+        )
+
+        updateLocalStore(cart)
     }
 
     function onIncreaseCount() {
-        const newCart = cart.map(
-            itm => itm.id === cartItem.product.id
-                ? { ...itm, count: itm.count + 1 }
-                : itm
+        // const newCart = cart.map(
+        //     itm => itm.id === cartItem.product.id
+        //         ? { ...itm, count: itm.count + 1 }
+        //         : itm
+        // )
+        // setStoreData<ICart>(StoreKey.CART, newCart)
+        // setCart && setCart(newCart)
+
+        dispatch(
+            increaseItemCount({ id: cartItem.product.id })
         )
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
+
+        updateLocalStore(cart)
     }
 
     function onDecreaseCount() {
-        if (cartItem.count > 1) {
-            const newCart = cart.map(
-                itm => itm.id === cartItem.product.id
-                    ? { ...itm, count: itm.count - 1 }
-                    : itm
-            )
+        // if (cartItem.count > 1) {
+        //     const newCart = cart.map(
+        //         itm => itm.id === cartItem.product.id
+        //             ? { ...itm, count: itm.count - 1 }
+        //             : itm
+        //     )
 
-            setStoreData<ICart>(StoreKey.CART, newCart)
-            setCart && setCart(newCart)
-        } else {
-            onRemoveItemFromCart()
-        }
+        //     setStoreData<ICart>(StoreKey.CART, newCart)
+        //     setCart && setCart(newCart)
+        // } else {
+        //     onRemoveItemFromCart()
+        // }
+
+        dispatch(
+            decreaseItemCount(cartItem)
+        )
+
+        updateLocalStore(cart)
     }
 }
 

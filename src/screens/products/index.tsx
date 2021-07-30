@@ -10,23 +10,26 @@ import { setStoreData } from '../../store'
 import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS } from '../../services/queries'
 import LoadingCard from '../../components/loadingCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart } from '../../reducers/cartReducers'
 
 
 const Products: FC = () => {
     const [itemToAddToCart, setItemToAddToCart] = useState<IProduct>()
     const [showPersonalise, setShowPersonalise] = useState<boolean>(false)
     const {
-        cart,
         showCart,
         currency,
         setCurrentPersonalDetails,
         setShowCart,
-        setCart
     } = useContext(CartContext)
 
     const { loading, error, data } = useQuery(GET_PRODUCTS, {
         variables: { currency }
     })
+
+    const cart: ICart = useSelector(state => state as ICart)
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -116,22 +119,32 @@ const Products: FC = () => {
     function addToCart(
         item: IProduct, option: IPersonalizationDetails[] = []
     ) {
-        const newCart = cart.some(itm => itm.id === item.id)
-            ? cart.map(
-                itm => itm.id === item.id
-                    ? { ...itm, count: itm.count + 1 }
-                    : itm
-            )
-            : [{ id: item.id, personalDetails: option, count: 1 }, ...cart]
+        // const newCart = cart.some(itm => itm.id === item.id)
+        //     ? cart.map(
+        //         itm => itm.id === item.id
+        //             ? { ...itm, count: itm.count + 1 }
+        //             : itm
+        //     )
+        //     : [{ id: item.id, personalDetails: option, count: 1 }, ...cart]
 
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
+        // setStoreData<ICart>(StoreKey.CART, newCart)
+        // setCart && setCart(newCart)
+
+        dispatch(
+            addItemToCart({ id: item.id, personalDetails: option})
+        )
+        updateLocalStore(cart)
+
         option.length && setStoreData<IPersonalizationDetails[]>(
             StoreKey.PERSONAL_DETAILS, option
         )
         option.length && setCurrentPersonalDetails && setCurrentPersonalDetails(
             option
         )
+    }
+
+    function updateLocalStore(cart: ICart) {
+        setStoreData<ICart>(StoreKey.CART, cart)
     }
 
     function handleShowCart() {

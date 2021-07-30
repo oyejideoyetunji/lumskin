@@ -1,8 +1,10 @@
-import { IAction, ICart, ICartItem, IPersonalizationDetails } from "../lib/types";
+import { IAction, ICart, ICartItem, IPersonalizationDetails, StoreKey } from "../lib/types";
+import { getStoreData } from "../store";
 
-const initialCartState: ICart = []
+const initialCartState: ICart = getStoreData<ICart>(StoreKey.CART) || []
 
 export enum CartActions {
+    addManyToCart = 'ADD_MANY_TO_CART',
     addItemToCart = 'ADD_TO_CART',
     removeItemFromCart = 'REMOVE_FROM_CART',
     increaseItemCount = 'INCREASE_COUNT',
@@ -14,40 +16,48 @@ interface ICartPayload {
     personalDetails?: IPersonalizationDetails[]
 }
 
-export function CartReducers(
+export default function CartReducer(
     state = initialCartState,
-    { type, payload }: IAction<CartActions, ICartPayload>
+    { type, payload }: IAction<CartActions, ICartPayload | ICart>
 ) :ICart{
     switch(type){
+        case CartActions.addManyToCart: {
+            const bulkPayload = payload as ICart
+            return bulkPayload
+        }
         case CartActions.addItemToCart: {
-            return state.some((itm) => itm.id === payload.id)
+            const itemPayload = payload as ICartPayload
+            return state.some((itm) => itm.id === itemPayload.id)
                 ? state.map(
-                    itm => itm.id === payload.id
+                    itm => itm.id === itemPayload.id
                         ? { ...itm, count: itm.count + 1 }
                         : itm
                 )
                 : [
                     {
-                        id: payload.id,
-                        personalDetails: payload?.personalDetails || [],
+                        id: itemPayload.id,
+                        personalDetails: itemPayload?.personalDetails || [],
                         count: 1
                     },
                     ...state
                 ]
         }
         case CartActions.removeItemFromCart: {
-            return state.filter(itm => itm.id !== payload.id)
+            const itemPayload = payload as ICartPayload
+            return state.filter(itm => itm.id !== itemPayload.id)
         }
         case CartActions.increaseItemCount: {
+            const itemPayload = payload as ICartPayload
             return state.map(
-                itm => itm.id === payload.id
+                itm => itm.id === itemPayload.id
                     ? { ...itm, count: itm.count + 1 }
                     : itm
             )
         }
         case CartActions.decreaseItemCount: {
+            const itemPayload = payload as ICartPayload
             return state.map(
-                itm => itm.id === payload.id
+                itm => itm.id === itemPayload.id
                     ? { ...itm, count: itm.count - 1 }
                     : itm
             )
@@ -55,6 +65,15 @@ export function CartReducers(
         default:
             return state
 
+    }
+}
+
+export function addManyToCart(
+    payload: ICart
+): IAction<CartActions, ICart> {
+    return {
+        type: CartActions.addManyToCart,
+        payload
     }
 }
 
