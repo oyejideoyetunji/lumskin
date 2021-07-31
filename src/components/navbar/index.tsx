@@ -1,9 +1,10 @@
-import React, { FC, useContext } from 'react'
-import { useSelector } from 'react-redux'
-import { ICart } from '../../lib/types'
+import React, { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IStoreState } from '../../lib/types'
+import { setShowCart, ShowCartActions } from '../../reducers/showCartReducer'
 import '../../styles/navbar.css'
 import { ImageUrls } from '../assets/images/urls'
-import { CartContext } from '../layout'
+
 
 interface NavBarProps {
     scrolled: boolean
@@ -11,8 +12,8 @@ interface NavBarProps {
 
 const Navbar: FC<NavBarProps> = ({ scrolled }: NavBarProps) => {
 
-    const { setShowCart } = useContext(CartContext)
-    const cart: ICart = useSelector(state => state as ICart)
+    const { cart } = useSelector((state: IStoreState) => state)
+    const dispatch = useDispatch()
 
     return (
         <nav
@@ -56,7 +57,9 @@ const Navbar: FC<NavBarProps> = ({ scrolled }: NavBarProps) => {
     )
 
     function onShowCart() {
-        setShowCart && setShowCart(true)
+        dispatch(
+            setShowCart(ShowCartActions.show)
+        )
     }
 }
 

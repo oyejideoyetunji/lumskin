@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export enum StoreKey {
     CART = 'cart',
     CURRENCY = 'currency',
@@ -11,22 +9,11 @@ export interface IAction<T, K> {
     payload: K
 }
 
-export interface ICartState {
+export interface IStoreState {
     cart: ICart
     showCart: boolean
     currency: string
-    currentPersonalDetails: IPersonalizationDetails[]
-}
-
-export interface CartData {
-    showCart: boolean
-    currency: string
-    currentPersonalDetails: IPersonalizationDetails[]
-    setCurrency?: Dispatch<SetStateAction<string>>
-    setShowCart?: Dispatch<SetStateAction<boolean>>
-    setCurrentPersonalDetails?: Dispatch<
-        SetStateAction<IPersonalizationDetails[]>
-    >
+    personalDetails: IPersonalizationDetails[]
 }
 
 export type ICart = ICartItem[]

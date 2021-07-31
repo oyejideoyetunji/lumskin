@@ -9,7 +9,7 @@ const LoadingCard: FC = () => {
             <div className="img-area"></div>
             <div className="content1"></div>
             <div className="content2"></div>
-        </div>\
+        </div>
         </div>
     )
 }

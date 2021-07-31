@@ -1,9 +1,10 @@
-import React, { FC, useContext } from 'react';
-import { IProduct } from '../../lib/types';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { IProduct, IStoreState } from '../../lib/types';
 import { delimitNumber } from '../../lib/utils';
 import '../../styles/productCard.css'
 import Button from '../button';
-import { CartContext } from '../layout';
+
 
 interface ProductCardProps {
     product: IProduct
@@ -17,7 +18,7 @@ const ProductCard: FC<ProductCardProps> = (
     }: ProductCardProps
 ) => {
 
-    const { currency } = useContext(CartContext)
+    const { currency } = useSelector((state: IStoreState) => state)
 
     return (
         <div className="flex flex-col items-center justify-end pd-card-wrp">
