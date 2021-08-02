@@ -1,7 +1,7 @@
-import { IAction, StoreKey } from "../lib/types";
-import { getStoreData } from "../store";
+import { IAction, LocalStoreKey } from "../lib/types";
+import { getLocalStoreData } from "../store";
 
-const initialCurrency = getStoreData<string>(StoreKey.CURRENCY) || 'NGN'
+const initialCurrency = getLocalStoreData<string>(LocalStoreKey.CURRENCY) || 'NGN'
 
 export default function CurrencyReducer(
     state = initialCurrency,

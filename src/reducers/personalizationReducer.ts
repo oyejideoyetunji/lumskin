@@ -1,9 +1,9 @@
-import { IAction, IPersonalizationDetails, StoreKey } from "../lib/types";
-import { getStoreData } from "../store";
+import { IAction, IPersonalizationDetails, LocalStoreKey } from "../lib/types";
+import { getLocalStoreData } from "../store";
 
-const initialPersonalDetails = getStoreData<
+const initialPersonalDetails = getLocalStoreData<
     IPersonalizationDetails[]
->(StoreKey.PERSONAL_DETAILS) || []
+>(LocalStoreKey.PERSONAL_DETAILS) || []
 
 export default function personalizationReducer(
     state = initialPersonalDetails,

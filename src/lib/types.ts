@@ -1,4 +1,4 @@
-export enum StoreKey {
+export enum LocalStoreKey {
     CART = 'cart',
     CURRENCY = 'currency',
     PERSONAL_DETAILS = 'personalization-details'

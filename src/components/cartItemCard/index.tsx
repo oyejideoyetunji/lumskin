@@ -2,7 +2,11 @@ import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IStoreState, LiveCartItem } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
-import { decreaseItemCount, increaseItemCount, removeItemFromCart } from '../../reducers/cartReducers'
+import {
+    decreaseItemCount,
+    increaseItemCount,
+    removeItemFromCart
+} from '../../reducers/cartReducers'
 import '../../styles/cartCard.css'
 
 

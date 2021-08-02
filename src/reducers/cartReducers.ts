@@ -1,7 +1,7 @@
-import { IAction, ICart, ICartItem, IPersonalizationDetails, StoreKey } from "../lib/types";
-import { getStoreData } from "../store";
+import { IAction, ICart, ICartItem, IPersonalizationDetails, LocalStoreKey } from "../lib/types";
+import { getLocalStoreData } from "../store";
 
-const initialCartState: ICart = getStoreData<ICart>(StoreKey.CART) || []
+const initialCartState: ICart = getLocalStoreData<ICart>(LocalStoreKey.CART) || []
 
 export enum CartActions {
     addManyToCart = 'ADD_MANY_TO_CART',
