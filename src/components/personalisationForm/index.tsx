@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FC, useContext, useState } from 'react'
-import { IPersonalizationDetails, IProduct } from '../../lib/types'
+import React, { ChangeEvent, FC, useState } from 'react'
+import { IPersonalizationDetails, IProduct, IStoreState } from '../../lib/types'
 import '../../styles/personalisationForm.css'
 import '../../styles/asideFrame.css'
 import Button from '../button'
 import Select from '../select'
-import { CartContext } from '../layout'
+import { useSelector } from 'react-redux'
 
 interface PersonalisationFormProps {
     product: IProduct
@@ -22,7 +22,7 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
     }: PersonalisationFormProps
 ) => {
 
-    const { currentPersonalDetails } = useContext(CartContext)
+    const { personalDetails } = useSelector((state: IStoreState) => state)
     const [optionsData, setOptionsData] = useState(getInitialOptionsData())
 
     return (
@@ -90,7 +90,7 @@ const PersonalisationForm: FC<PersonalisationFormProps> = (
         for (const option of product?.product_options) {
             initialOptionData[option.title] = {
                 title: option.title,
-                value: currentPersonalDetails?.find(
+                value: personalDetails?.find(
                     itm => itm.title === option.title
                 )?.value || ''
             }

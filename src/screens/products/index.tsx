@@ -1,28 +1,25 @@
-import React, { FC, useContext, useState } from 'react'
+import React, { FC, useState } from 'react'
 import Select from '../../components/select'
 import ProductCard from '../../components/productCard'
 import '../../styles/products.css'
 import ModalWrapper from '../../components/modalWrapper'
-import { ICart, IPersonalizationDetails, IProduct, StoreKey } from '../../lib/types'
+import { IPersonalizationDetails, IProduct, IStoreState } from '../../lib/types'
 import PersonalisationForm from '../../components/personalisationForm'
-import { CartContext } from '../../components/layout'
-import { setStoreData } from '../../store'
 import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS } from '../../services/queries'
 import LoadingCard from '../../components/loadingCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart } from '../../reducers/cartReducers'
+import { setShowCart, ShowCartActions } from '../../reducers/showCartReducer'
+import { setPersonalDetails } from '../../reducers/personalizationReducer'
 
 
 const Products: FC = () => {
+    const { currency, showCart } = useSelector((state: IStoreState) => state)
+    const dispatch = useDispatch()
+
     const [itemToAddToCart, setItemToAddToCart] = useState<IProduct>()
     const [showPersonalise, setShowPersonalise] = useState<boolean>(false)
-    const {
-        cart,
-        showCart,
-        currency,
-        setCurrentPersonalDetails,
-        setShowCart,
-        setCart
-    } = useContext(CartContext)
 
     const { loading, error, data } = useQuery(GET_PRODUCTS, {
         variables: { currency }
@@ -116,26 +113,18 @@ const Products: FC = () => {
     function addToCart(
         item: IProduct, option: IPersonalizationDetails[] = []
     ) {
-        const newCart = cart.some(itm => itm.id === item.id)
-            ? cart.map(
-                itm => itm.id === item.id
-                    ? { ...itm, count: itm.count + 1 }
-                    : itm
-            )
-            : [{ id: item.id, personalDetails: option, count: 1 }, ...cart]
-
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
-        option.length && setStoreData<IPersonalizationDetails[]>(
-            StoreKey.PERSONAL_DETAILS, option
+        dispatch(
+            addItemToCart({ id: item.id, personalDetails: option})
         )
-        option.length && setCurrentPersonalDetails && setCurrentPersonalDetails(
-            option
+        option.length && dispatch(
+            setPersonalDetails(option)
         )
     }
 
     function handleShowCart() {
-        setShowCart && setShowCart(true)
+        dispatch(
+            setShowCart(ShowCartActions.show)
+        )
     }
     function handleShowPersonalise() {
         setShowPersonalise && setShowPersonalise(true)

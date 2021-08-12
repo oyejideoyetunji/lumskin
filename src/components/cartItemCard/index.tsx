@@ -1,9 +1,13 @@
-import React, { FC, useContext } from 'react'
-import { ICart, LiveCartItem, StoreKey } from '../../lib/types'
+import React, { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IStoreState, LiveCartItem } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
-import { setStoreData } from '../../store'
+import {
+    decreaseItemCount,
+    increaseItemCount,
+    removeItemFromCart
+} from '../../reducers/cartReducers'
 import '../../styles/cartCard.css'
-import { CartContext } from '../layout'
 
 
 interface CartItemCardProps {
@@ -14,7 +18,8 @@ const CartItemCard: FC<CartItemCardProps> = (
     { cartItem }: CartItemCardProps
 ) => {
 
-    const { cart, currency, setCart } = useContext(CartContext)
+    const { currency } = useSelector((state: IStoreState) => state)
+    const dispatch = useDispatch()
 
     return (
         <section className="cart-card w-full bg-white">
@@ -58,34 +63,21 @@ const CartItemCard: FC<CartItemCardProps> = (
     )
 
     function onRemoveItemFromCart() {
-        const newCart = cart.filter(itm => itm.id !== cartItem.product.id)
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
+        dispatch(
+            removeItemFromCart({ id: cartItem.product.id })
+        )
     }
 
     function onIncreaseCount() {
-        const newCart = cart.map(
-            itm => itm.id === cartItem.product.id
-                ? { ...itm, count: itm.count + 1 }
-                : itm
+        dispatch(
+            increaseItemCount({ id: cartItem.product.id })
         )
-        setStoreData<ICart>(StoreKey.CART, newCart)
-        setCart && setCart(newCart)
     }
 
     function onDecreaseCount() {
-        if (cartItem.count > 1) {
-            const newCart = cart.map(
-                itm => itm.id === cartItem.product.id
-                    ? { ...itm, count: itm.count - 1 }
-                    : itm
-            )
-
-            setStoreData<ICart>(StoreKey.CART, newCart)
-            setCart && setCart(newCart)
-        } else {
-            onRemoveItemFromCart()
-        }
+        dispatch(
+            decreaseItemCount(cartItem)
+        )
     }
 }
 

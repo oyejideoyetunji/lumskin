@@ -1,14 +1,14 @@
 import { useQuery } from '@apollo/client'
-import React, { ChangeEvent, FC, useContext } from 'react'
-import { IProduct, StoreKey } from '../../lib/types'
+import React, { ChangeEvent, FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IProduct, IStoreState } from '../../lib/types'
 import { delimitNumber } from '../../lib/utils'
+import { setCurrency } from '../../reducers/currencyReducer'
 import { GET_CURRENCIES, GET_PRODUCTS } from '../../services/queries'
-import { setStoreData } from '../../store'
 import '../../styles/asideFrame.css'
 import '../../styles/cart.css'
 import Button from '../button'
 import CartItemCard from '../cartItemCard'
-import { CartContext } from '../layout'
 import LoadingCard from '../loadingCard'
 import Select from '../select'
 
@@ -18,7 +18,8 @@ interface CartProps {
 
 const Cart: FC<CartProps> = ({ onClose }: CartProps) => {
 
-    const { cart, currency, setCurrency } = useContext(CartContext)
+    const { cart, currency } = useSelector((state: IStoreState) => state )
+    const dispatch = useDispatch()
 
     const { loading, error, data } = useQuery(GET_CURRENCIES)
     const { loading: pdLoading, error: pdError, data: pdData } = useQuery(GET_PRODUCTS, {
@@ -115,8 +116,9 @@ const Cart: FC<CartProps> = ({ onClose }: CartProps) => {
             .reduce((prev, curr) => prev + (curr.count * curr.product.price), 0)
     }
     function onCurrencyChange(event: ChangeEvent<HTMLSelectElement>) {
-        setStoreData<string>(StoreKey.CURRENCY, event.target.value)
-        setCurrency && setCurrency(event.target.value)
+        dispatch(
+            setCurrency(event.target.value)
+        )
     }
 }
 

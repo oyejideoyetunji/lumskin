@@ -1,22 +1,19 @@
-import { Dispatch, SetStateAction } from "react";
-
-export enum StoreKey {
+export enum LocalStoreKey {
     CART = 'cart',
     CURRENCY = 'currency',
     PERSONAL_DETAILS = 'personalization-details'
 }
 
-export interface CartData {
+export interface IAction<T, K> {
+    type: T
+    payload: K
+}
+
+export interface IStoreState {
     cart: ICart
     showCart: boolean
     currency: string
-    setCurrency?: Dispatch<SetStateAction<string>>
-    setCart?: Dispatch<SetStateAction<ICart>>
-    setShowCart?: Dispatch<SetStateAction<boolean>>
-    currentPersonalDetails: IPersonalizationDetails[]
-    setCurrentPersonalDetails?: Dispatch<
-        SetStateAction<IPersonalizationDetails[]>
-    >
+    personalDetails: IPersonalizationDetails[]
 }
 
 export type ICart = ICartItem[]
