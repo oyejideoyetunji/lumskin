@@ -1,5 +1,5 @@
 import { IAction, LocalStoreKey } from "../lib/types";
-import { getLocalStoreData } from "../store";
+import { getLocalStoreData } from "../localStoretore";
 
 const initialCurrency = getLocalStoreData<string>(LocalStoreKey.CURRENCY) || 'NGN'
 

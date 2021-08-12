@@ -1,5 +1,5 @@
 import { IAction, IPersonalizationDetails, LocalStoreKey } from "../lib/types";
-import { getLocalStoreData } from "../store";
+import { getLocalStoreData } from "../localStoretore";
 
 const initialPersonalDetails = getLocalStoreData<
     IPersonalizationDetails[]

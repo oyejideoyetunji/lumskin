@@ -1,5 +1,5 @@
 import { IAction, ICart, ICartItem, IPersonalizationDetails, LocalStoreKey } from "../lib/types";
-import { getLocalStoreData } from "../store";
+import { getLocalStoreData } from "../localStoretore";
 
 const initialCartState: ICart = getLocalStoreData<ICart>(LocalStoreKey.CART) || []
 
